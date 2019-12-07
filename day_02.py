@@ -3,24 +3,10 @@
 
 import fileinput
 import sys
+from intcodecomp import intcode_comp
 
 if len(sys.argv) == 1:
     sys.argv += ["input_02"]
-
-def intcode_comp(memory):
-    ip = 0
-    while True:
-        op = memory[ip]
-        if op == 1: # addition
-            memory[memory[ip + 3]] = memory[memory[ip + 1]] + memory[memory[ip + 2]]
-            ip += 4
-        elif op == 2: # multiplication
-            memory[memory[ip + 3]] = memory[memory[ip + 1]] * memory[memory[ip + 2]]
-            ip += 4
-        elif op == 99: # halt
-            break
-        else:
-            raise Exception("Opcode inconnu " + repr(op) + " @ip=" + repr(ip))
         
 def machine_p1(line, mod=False):
     mem = [int(v) for v in line.split(",")]

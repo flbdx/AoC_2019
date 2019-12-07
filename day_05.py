@@ -3,64 +3,10 @@
 
 import fileinput
 import sys
+from intcodecomp import intcode_comp
 
 if len(sys.argv) == 1:
     sys.argv += ["input_05"]
-
-def intcode_comp(memory, inputs=[], outputs=[]):
-    inputs_idx = 0
-    ip = 0
-    while True:
-        instruction = memory[ip]
-        
-        op = (instruction % 100)
-        param_mode = lambda i: ((instruction // (10 * (10 ** i))) % 10)
-        def operand(i):
-            mode = param_mode(i)
-            if mode == 0:
-                return memory[memory[ip + i]]
-            elif mode == 1:
-                return memory[ip + i]
-        
-        if op == 1: # addition
-            memory[memory[ip + 3]] = operand(1) + operand(2)
-            ip += 4
-        elif op == 2: # multiplication
-            memory[memory[ip + 3]] = operand(1) * operand(2)
-            ip += 4
-        elif op == 3: # input
-            memory[memory[ip + 1]] = inputs[inputs_idx]
-            inputs_idx += 1
-            ip += 2
-        elif op == 4: # output
-            outputs.append(operand(1))
-            ip += 2
-        elif op == 5: # jump-if-true
-            if operand(1) != 0:
-                ip = operand(2)
-            else:
-                ip += 3
-        elif op == 6: # jump-if-false
-            if operand(1) == 0:
-                ip = operand(2)
-            else:
-                ip += 3
-        elif op == 7: # less than
-            if operand(1) < operand(2):
-                memory[memory[ip + 3]] = 1
-            else:
-                memory[memory[ip + 3]] = 0
-            ip += 4
-        elif op == 8: # equals
-            if operand(1) == operand(2):
-                memory[memory[ip + 3]] = 1
-            else:
-                memory[memory[ip + 3]] = 0
-            ip += 4
-        elif op == 99: # halt
-            break
-        else:
-            raise Exception("Opcode inconnu " + repr(op) + " @ip=" + repr(ip))
 
 def machine_p1(line, inputs=[]):
     outputs=[]
