@@ -90,7 +90,7 @@ def test_p2():
     assert max_s == (9,7,8,5,6) and max_v == 18216
 test_p2()
 
-def p1():
+def p2():
     for line in fileinput.input():
         print(work_p2([int(v) for v in line.split(",")]))
-p1()
+p2()
