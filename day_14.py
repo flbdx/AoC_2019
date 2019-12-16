@@ -3,7 +3,6 @@
 
 import fileinput
 import sys
-from intcodecomp import IntComputer
 import math
 
 if len(sys.argv) == 1:
@@ -24,7 +23,6 @@ class Reaction(object):
         words = parts[1].split(" ")
         self.product = words[1]
         self.product_count = int(words[0])
-        #self.simplify()
     
     def __repr__(self):
         s = " + ".join([repr(self.reagents[r]) + " " + r for r in self.reagents])
@@ -50,7 +48,6 @@ class Chemistry(object):
             need = self.needs[r]
             got = self.products.get(r, 0)
             missing = need - got
-            #print((r, need, got, missing))
             all_done = True
             if missing > 0:
                 reaction = self.reactions[r]
@@ -60,17 +57,6 @@ class Chemistry(object):
                 self.products[r] = got + n_reactions * reaction.product_count
                 all_done = False
         return all_done
-    
-    def all_consumed(self):
-        for r in self.products:
-            if self.products[r] != self.needs[r]:
-                return False
-        return True
-    
-    def relaunch(self):
-        r_fuel = self.reactions["FUEL"]
-        for r in r_fuel.reagents:
-            self.needs[r] = self.needs.get(r, 0) + r_fuel.reagents[r]
     
     def ORE(self):
         return self.needs.get("ORE", 0)
