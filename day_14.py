@@ -4,13 +4,14 @@
 import fileinput
 import sys
 import math
+from collections import OrderedDict
 
 if len(sys.argv) == 1:
     sys.argv += ["input_14"]
 
 class Reaction(object):
     def __init__(self, line):
-        self.reagents = {}
+        self.reagents = OrderedDict()
         self.product = None
         self.product_count = 0
         
@@ -32,7 +33,7 @@ class Reaction(object):
 class Chemistry(object):
     def __init__(self, reactions, factor=1):
         self.reactions = reactions
-        self.needs = {}
+        self.needs = OrderedDict()
         self.products = {}
         
         r_fuel = self.reactions["FUEL"]
