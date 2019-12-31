@@ -111,8 +111,9 @@ class IntComputer(object):
         else:
             return self.memory
     
-    def run(self, break_after_output=False):
+    def run(self, break_after_output=False, max_instructions=0):
         self.state = IntComputer.State.RUNNING
+        n_instructions = 0
         while True:
             instruction = self.memory[self.ip]
             
@@ -191,3 +192,7 @@ class IntComputer(object):
                 break
             else:
                 raise Exception("Opcode inconnu " + repr(op) + " @ip=" + repr(self.ip))
+
+            n_instructions += 1
+            if max_instructions > 0 and n_instructions == max_instructions:
+                break
