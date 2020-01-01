@@ -90,6 +90,9 @@ class IntComputer(object):
     
     def push_input(self, v):
         self.inputs.append(v)
+        
+    def push_inputs(self, inputs):
+        self.inputs.extend(inputs)
     
     def read_output(self):
         if len(self.outputs) != 0:
